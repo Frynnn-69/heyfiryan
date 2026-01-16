@@ -1,6 +1,6 @@
 import LinkedinIcon from '@/components/ui/icons/linkedin.astro'
-import XIcon from '@/components/ui/icons/x.astro'
-import GithubIcon from '@/components/ui/icons/github.astro'
+import GmailIcon from '@/components/ui/icons/gmail.astro'
+import WhatsappIcon from '@/components/ui/icons/whatsapp.astro'
 
 export const NAV_LINKS = [
   {
@@ -19,18 +19,18 @@ export const NAV_LINKS = [
 
 export const SOCIAL_LINKS = [
   {
-    name: 'Github',
-    icon: GithubIcon,
-    url: "https://github.com/Louai-Zokerburg",
+    name: 'Email',
+    icon: GmailIcon,
+    url: "mailto:firyanfatihf01@gmail.com",
   },
   {
     name: 'Linkedin',
     icon: LinkedinIcon,
-    url: "https://www.linkedin.com/in/louai-boumediene-018919262/",
+    url: "https://www.linkedin.com/in/firyan-fatih-fadilah/",
   },
   {
-    name: 'X',
-    icon: XIcon,
-    url: "https://x.com/Louai_Dourov",
+    name: 'Whatsapp',
+    icon: WhatsappIcon,
+    url: "https://wa.me/+628561949399", 
   },
 ];
