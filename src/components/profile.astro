@@ -1,21 +1,21 @@
 ---
-import LouaiAvatar from "@/components/ui/louai-avatar.astro";
+import Avatar from "@/components/ui/avatar.astro";
 import Box from "@/components/box/index.astro";
 import BoxContent from "@/components/box/content.astro";
 
 import { PROFILE_INFO } from "@/lib/constants/profile";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Clapperboard, MapPin } from "lucide-react";
 
 import VerifiedIcon from "@/components/ui/icons/verified.astro";
-import XIcon from "@/components/ui/icons/x.astro";
 import GithubIcon from "@/components/ui/icons/github.astro";
 import LinkedinIcon from "@/components/ui/icons/linkedin.astro";
+import HuggingFaceIcon from "@/components/ui/icons/huggingface.astro";
 ---
 
 <div class="screen-line-after relative flex items-center p-4 md:border-x">
   <div class="shrink-0">
     <div class="relative z-1 mx-0.5 my-1">
-      <LouaiAvatar
+      <Avatar
         className="size-20 rounded-full ring-1 ring-border ring-offset-2 ring-offset-background sm:size-28"
       />
     </div>
@@ -35,46 +35,40 @@ import LinkedinIcon from "@/components/ui/icons/linkedin.astro";
       </h1>
 
       <div class="py-1 pl-4">
-        <p class="text-sm !font-normal">
+        <p class="text-sm font-normal!">
           {PROFILE_INFO.role}
         </p>
+      </div>
+
+      <div class="flex items-center gap-x-2 pl-4 py-1">
+        <MapPin className="size-4" />
+        <span class="text-sm font-normal!">Indonesia</span>
       </div>
     </div>
   </div>
 </div>
 
 {
-  /* Callout badge
+/* Callout badge */
 <div
   class="screen-line-after inline-flex w-full items-center gap-2 border-x bg-yellow-100 px-3 py-2 text-sm font-semibold dark:bg-yellow-500/10"
 >
-  <span class="animate-bounce text-base">👋</span> I'm open to new opportunities
+  <span class="animate-wave text-base">👋</span> I'm open to new opportunities
   —
   <a href={`mailto:${PROFILE_INFO.email}`} class="underline underline-offset-4">
     get in touch
   </a>
 </div>
- */
+
 }
 
 <Box>
   <BoxContent className="space-y-3">
     <span class="flex items-center justify-start gap-2">
       <Briefcase className="size-4" />
-      I build software at
-      <a
-        href="https://activepieces.com"
-        target="_blank"
-        class="underline underline-offset-4"
-      >
-        Activepieces
-      </a>
-    </span>
-    <span class="flex items-center justify-start gap-2">
-      <Briefcase className="size-4" />
       Take a look at my
       <a
-        href="https://drive.google.com/file/d/1c7-UIHy8GUvgj2XHuf7nfhUU4vpjRXSt/view?usp=sharing"
+        href="#"
         target="_blank"
         class="underline underline-offset-4"
       >
@@ -83,14 +77,14 @@ import LinkedinIcon from "@/components/ui/icons/linkedin.astro";
     </span>
 
     <span class="flex items-center justify-start gap-2">
-      <XIcon className="size-4" />
-      Follow me on
+      <GithubIcon className="size-4" />
+      I ship code on
       <a
-        href="https://x.com/Louai_Dourov"
-        target="_blank"
+        href="https://github.com/Frynnn-69"
         class="underline underline-offset-4"
+        target="_blank"
       >
-        Twitter
+        GitHub
       </a>
     </span>
 
@@ -98,7 +92,7 @@ import LinkedinIcon from "@/components/ui/icons/linkedin.astro";
       <LinkedinIcon className="size-4" />
       Let's connect on
       <a
-        href="https://www.linkedin.com/in/louai-boumediene-018919262/"
+        href="https://www.linkedin.com/in/firyan-fatih-fadilah/"
         class="underline underline-offset-4"
         target="_blank"
       >
@@ -107,15 +101,31 @@ import LinkedinIcon from "@/components/ui/icons/linkedin.astro";
     </span>
 
     <span class="flex items-center justify-start gap-2">
-      <GithubIcon className="size-4" />
-      Check out my repos on
+      <HuggingFaceIcon className="size-4" />
+      Sometimes I mess around on 
       <a
-        href="https://github.com/Louai-Zokerburg"
-        class="underline underline-offset-4"
+        href="https://huggingface.co/"
         target="_blank"
+        class="underline underline-offset-4"
       >
-        GitHub
+        Hugging Face
       </a>
+    </span>
+
+    <span class="flex items-center justify-start gap-2">
+      <Clapperboard className="size-4" />
+      <span>
+        Like watching movies/series? I do&nbsp;
+        <a
+          href="https://letterboxd.com/"
+          target="_blank"
+          class="underline underline-offset-4"
+        >Letterboxd</a>/<a
+          href="https://tvtime.com/"
+          target="_blank"
+          class="underline underline-offset-4"
+        >TvTime</a>
+      </span>
     </span>
   </BoxContent>
 </Box>

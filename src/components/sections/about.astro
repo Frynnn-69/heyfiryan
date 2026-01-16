@@ -1,21 +1,10 @@
 ---
 import { PROFILE_INFO } from "@/lib/constants/profile";
-import MarkdownRenderer from "@/components/ui/markdown-renderer.astro";
+import { markdownToHtml } from "@/lib/markdown";
+import AboutToggle from "@/components/sections/about-toggle";
 
-import Box from "@/components/box/index.astro";
-import BoxHeader from "@/components/box/header.astro";
-import BoxTitle from "@/components/box/title.astro";
-import BoxContent from "@/components/box/content.astro";
+const tldrHtml = await markdownToHtml(PROFILE_INFO.aboutTLDR || "");
+const fullHtml = await markdownToHtml(PROFILE_INFO.aboutFull || "");
 ---
 
-<Box>
-  <BoxHeader>
-    <BoxTitle> About </BoxTitle>
-  </BoxHeader>
-  <BoxContent>
-    <MarkdownRenderer
-      className="text-sm leading-7 font-medium"
-      content={PROFILE_INFO.about}
-    />
-  </BoxContent>
-</Box>
+<AboutToggle client:load tldrHtml={tldrHtml} fullHtml={fullHtml} />
