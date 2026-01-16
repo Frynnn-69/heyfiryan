@@ -2,28 +2,28 @@
 import { getCollection } from "astro:content";
 import ArticleItem from "@/components/article-item.astro";
 import PageLayout from "@/layouts/page-layout.astro";
-
 import Pattern from "@/components/ui/pattern.astro";
-
 import Box from "@/components/box/index.astro";
 import BoxTitle from "@/components/box/title.astro";
 import BoxHeader from "@/components/box/header.astro";
 
 export async function getStaticPaths() {
-  const articels = await getCollection("blog");
-  return articels.map(article => ({
-    params: { category: article.data.category },
+  const articles = await getCollection("blog");
+  
+  const uniqueCategories = [...new Set(articles.map(article => article.data.category))];
+  
+  return uniqueCategories.map(category => ({
+    params: { category },
   }));
 }
 
 const { category } = Astro.params;
+const articles = await getCollection("blog");
 
-const articels = await getCollection("blog");
-const categoryArticles = articels.filter(
+const categoryArticles = articles.filter(
   article => article.data.category === category
 );
 
-// Page properties
 const title = category;
 const description = `Exploring ${category} insights, lessons, and discoveries from my software engineering journey.`;
 ---
@@ -35,9 +35,7 @@ const description = `Exploring ${category} insights, lessons, and discoveries fr
     <BoxHeader>
       <BoxTitle>Articles</BoxTitle>
     </BoxHeader>
-    <div
-      class="flex w-full flex-col items-start justify-start divide-y divide-border"
-    >
+    <div class="flex w-full flex-col items-start justify-start divide-y divide-border">
       {categoryArticles.map(article => <ArticleItem article={article} />)}
     </div>
   </Box>
