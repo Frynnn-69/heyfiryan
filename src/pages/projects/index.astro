@@ -7,6 +7,7 @@ import BoxHeader from "@/components/box/header.astro";
 import BoxTitle from "@/components/box/title.astro";
 import { getCollection } from "astro:content";
 import ProjectItem from "@/components/sections/projects/project-item.astro";
+import MaintenanceNotice from "@/components/ui/maintenance-notice.astro";
 
 const projects = await getCollection("projects");
 
@@ -15,9 +16,15 @@ const sideProjects = projects.filter(project => project.data.type === "side");
 ---
 
 <PageLayout
-  description="A collection of things I’ve built, full-stack apps, experiments, and side projects."
-  title="My Projects"
+  description="A showcase of AI-integrated tools, healthcare systems, and full-stack solutions built for impact."
+  title="Projects Collection"
 >
+  <MaintenanceNotice 
+    title="Projects Under Construction" 
+    description="Curating a showcase of AI-integrated tools and full-stack applications. From healthcare referral systems to social graph intelligence." 
+  />
+
+  <!--
   <Pattern />
   <Box>
     <BoxHeader>
@@ -40,4 +47,5 @@ const sideProjects = projects.filter(project => project.data.type === "side");
   }
  
   <Pattern />
+  -->
 </PageLayout>

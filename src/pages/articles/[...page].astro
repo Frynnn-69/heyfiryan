@@ -14,6 +14,7 @@ import { SITE } from "@/lib/config";
 import type { GetStaticPaths } from "astro";
 import Pagination from "@/components/pagination.astro";
 import PageLayout from "@/layouts/page-layout.astro";
+import MaintenanceNotice from "@/components/ui/maintenance-notice.astro";
 
 const articles = await getCollection("blog");
 const categories = [...new Set(articles.map(article => article.data.category))];
@@ -37,9 +38,15 @@ const { page } = Astro.props;
 ---
 
 <PageLayout
-  description="Exploring frontend, backend, and full-stack developmen deep dives, series, and hands-on insights."
-  title="Software Engineering Notes"
+  description="Exploring Applied AI, Product Engineering, and the psychology of software. Deep dives into complex systems made simple."
+  title="Notes"
 >
+  <MaintenanceNotice 
+    title="Articles Coming Soon" 
+    description="I'll be sharing insights on Applied AI, Product Engineering, and the intersection of tech & psychology. Expect deep dives on healthcare systems, vector databases, and simplifying complexity." 
+  />
+  
+  <!-- 
   <Pattern />
 
   <Box>
@@ -92,4 +99,5 @@ const { page } = Astro.props;
   </Box>
 
   <Pattern />
+  -->
 </PageLayout>

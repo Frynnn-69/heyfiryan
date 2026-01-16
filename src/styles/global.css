@@ -36,6 +36,7 @@
 
   --animate-accordion-down: accordion-down 0.3s ease-out;
   --animate-accordion-up: accordion-up 0.3s ease-out;
+  --animate-wave: wave 2.5s infinite;
 
   @keyframes accordion-down {
     from {
@@ -54,6 +55,33 @@
 
     to {
       height: 0;
+    }
+  }
+
+  @keyframes wave {
+    0% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(14deg);
+    }
+    20% {
+      transform: rotate(-8deg);
+    }
+    30% {
+      transform: rotate(14deg);
+    }
+    40% {
+      transform: rotate(-4deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+    60% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(0deg);
     }
   }
 }
@@ -164,6 +192,13 @@ pre {
   @apply relative after:absolute after:bottom-0 after:-left-[100vw] after:h-0 after:w-[200vw] after:border-b after:border-dashed after:border-border;
 }
 
+/* Add custom class for wave animation to allow transform-origin setting */
+.animate-wave {
+  animation: wave 2.5s infinite;
+  transform-origin: 70% 70%;
+  display: inline-block;
+}
+
 .copy-code {
   @apply absolute top-2 right-2 cursor-pointer rounded-md border border-transparent p-2 text-xs font-bold duration-150 hover:bg-primary hover:text-primary-foreground;
 }
@@ -171,4 +206,3 @@ pre {
 .copy-code svg {
   @apply size-4;
 }
-

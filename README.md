@@ -1,41 +1,18 @@
-# Minimalistic Portfolio Website
+## About
 
-![Screenshot](./public/screenshot-dark.png)
+Personal portfolio website of **Firyan Fatih Fadilah** (Frynnn).
 
-## Overview
-This is a sleek, modern, and highly customizable portfolio template built using **Astro**. Designed with performance, accessibility, and SEO in mind, it offers a clean and minimalistic experience while providing all the essential features needed for a professional online presence.
+This portfolio showcases my work in applied AI, product engineering, and fullstack development. Built with modern web technologies for performance and clarity.
 
-## Features
-- 🌙 **Light & Dark Mode** – Seamlessly switch between themes.
-- 📱 **Mobile-Friendly** – Fully responsive design.
-- 📖 **Blog Section** – Supports **MDX** with automatic table of contents (TOC) and pagination.
-- 🏷️ **Categorized Articles** – Filter posts by series or category.
-- 🚀 **Projects Showcase** – Detailed overview of projects with images and descriptions.
-- 🖼️ **SEO & Open Graph** – Optimized metadata and dynamic OG images.
-- 🎨 **Sleek & Modern Design** – Crafted with a focus on simplicity and elegance.
+**Status:** Work in progress ⏱️. Articles and projects are updated weekly 🗓️.
 
 ## Tech Stack
-Built using the following technologies:
 
-- **Astro** – Blazing fast static site generation.
-- **TailwindCSS** – Highly customizable utility-first CSS framework.
-- **TypeScript** – Strict type safety for maintainability.
-- **Prettier** – Code formatting for consistency.
-- **Framer Motion** – Smooth animations and transitions.
+- **Astro** - Static site generation
+- **React** - Interactive components
+- **Tailwind CSS v4** - Styling
+- **TypeScript** - Type safety
 
-## How to Use
-Customization is simple and straightforward:
+## Credits
 
-- All customizable data (name, links, content, etc.) is stored in `lib/constants/` dir.
-- Images can be replaced in the `public` folder.
-- OG images for blogs and projects are stored in `public/og/`.
-- Theming follows **shadcn's** color palette and can be easily tweaked.
-
-## Contribute & Support
-Love the project? Give it a ⭐ on GitHub! Contributions are always welcome—whether it's fixing a bug, adding a new feature, or even correcting a small typo.
-
-[👉 Check out the repo](https://github.com/Louai-Zokerburg/louai) and make your first pull request!
-
----
-
-Built with ❤️ using **Astro**.
+This portfolio is adapted from the excellent template by [Louai Boumediene](https://www.linkedin.com/in/louai-boumediene-018919262/). The original design and architecture provided a solid foundation, which I've customized to fit my content and personal style.
