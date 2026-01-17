@@ -14,12 +14,12 @@ import {
   Tensorflow,
   PyTorch,
   GoogleCloud,
-  NumPy,
   Jira  
 } from "developer-icons";
 
 import FastapiIcon from '@/components/ui/icons/fastapi.astro'
 import PandasIcon from "@/components/ui/icons/pandas.astro";
+import NumPyIcon from "@/components/ui/icons/numpy.astro";
 import VercelIcon from "@/components/ui/icons/vercel.astro";
 import SQLIcon from "@/components/ui/icons/sql.astro";
 import GoogleAIStudioIcon from "@/components/ui/icons/google-ai-studio.astro";
@@ -157,7 +157,7 @@ export const TECH_GROUPS: TechGroup[] = [
        {
         title: "NumPy",
         href: "https://numpy.org/",
-        icon: NumPy,
+        icon: NumPyIcon,
         description: "Where my data journey started. From exploring datasets as a curious analyst to building ML pipelines—NumPy's always been there. Fast array operations with clean Python syntax.",
       },
       {
