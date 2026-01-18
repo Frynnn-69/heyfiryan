@@ -33,37 +33,39 @@ export default function TechTooltip({
   useEffect(() => {
     if (isActive && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
+      const iconCenterX = rect.left + rect.width / 2;
       const screenWidth = window.innerWidth;
       
-      // Base style: Fixed position above the icon
-      const baseStyle: React.CSSProperties = {
-        top: rect.top - 8, // 8px spacing
-      };
+      // Constants
+      const PADDING = 10;
+      const MAX_WIDTH = 384; // max-w-sm
+      const tooltipWidth = Math.min(screenWidth * 0.9, MAX_WIDTH);
       
-      let newArrowStyle: React.CSSProperties = {};
+      // Calculate Horizontal Position (Magnetic Clamp)
+      // 1. Try to center the tooltip on the icon
+      const idealLeft = iconCenterX - tooltipWidth / 2;
+      
+      // 2. Clamp it within the screen bounds (with padding)
+      const clampedLeft = Math.max(
+        PADDING, 
+        Math.min(idealLeft, screenWidth - tooltipWidth - PADDING)
+      );
 
-      // Smart Alignment
-      // Threshold: 160px (Approx half of tooltip max-width 320px)
-      if (centerX < 160) {
-        // Left Align
-        baseStyle.left = rect.left;
-        baseStyle.transform = "translateY(-100%)";
-        newArrowStyle = { left: "1.5rem" }; // Approx center of first icon
-      } else if (centerX > screenWidth - 160) {
-        // Right Align
-        baseStyle.right = screenWidth - rect.right;
-        baseStyle.transform = "translateY(-100%)";
-        newArrowStyle = { right: "1.5rem" };
-      } else {
-        // Center Align
-        baseStyle.left = centerX;
-        baseStyle.transform = "translate(-50%, -100%)";
-        newArrowStyle = { left: "50%", transform: "translateX(-50%) rotate(45deg)" };
-      }
+      // 3. Calculate Arrow Position (Relative to Tooltip)
+      // The arrow should point to the iconCenter.
+      // Arrow Position in Tooltip = IconGlobalX - TooltipGlobalX
+      const arrowLeft = iconCenterX - clampedLeft;
 
-      setTooltipStyle(baseStyle);
-      setArrowStyle(newArrowStyle);
+      setTooltipStyle({
+        top: rect.top - 8, // Just above the icon
+        left: clampedLeft,
+        transform: "translateY(-100%)", // Move up by its own height
+        width: tooltipWidth, // Explicit width for consistency
+      });
+
+      setArrowStyle({
+        left: arrowLeft,
+      });
     }
   }, [isActive]);
 
@@ -112,11 +114,11 @@ export default function TechTooltip({
             style={tooltipStyle}
             className={`
               z-50 rounded-xl border border-border bg-popover p-4 shadow-lg
-              /* Mobile: Fixed Position (Coords from state) */
-              fixed w-[90vw] max-w-sm
+              /* Mobile: Fixed & Clamped (from inline styles) */
+              fixed max-w-sm
               
               /* Desktop: Absolute Override (Reset fixed styles) */
-              md:!static md:!transform-none md:!top-auto md:!left-auto md:!right-auto
+              md:!static md:!transform-none md:!top-auto md:!left-auto md:!right-auto md:!width-auto
               
               /* Desktop: Absolute Layout */
               md:absolute md:!bottom-full md:mb-3 md:w-80 md:left-1/2 md:-translate-x-1/2
