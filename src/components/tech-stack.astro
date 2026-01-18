@@ -3,7 +3,7 @@ import Box from "@/components/box/index.astro";
 import BoxHeader from "@/components/box/header.astro";
 import BoxTitle from "@/components/box/title.astro";
 import BoxContent from "@/components/box/content.astro";
-import TechGrid from "@/components/tech-stack/tech-grid.astro";
+import TechGrid from "@/components/tech-stack/tech-grid.tsx";
 ---
 
 <Box>
@@ -11,6 +11,6 @@ import TechGrid from "@/components/tech-stack/tech-grid.astro";
     <BoxTitle>Current Favorite Tech Stack</BoxTitle>
   </BoxHeader>
   <BoxContent>
-    <TechGrid />
+    <TechGrid client:visible />
   </BoxContent>
 </Box>
