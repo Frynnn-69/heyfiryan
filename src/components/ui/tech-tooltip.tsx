@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function TechTooltip({
@@ -25,6 +26,19 @@ export default function TechTooltip({
   onLeave: () => void;
   onClick: () => void;
 }) {
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    if (isActive && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setCoords({
+        x: rect.left + rect.width / 2, // Center of trigger
+        y: rect.top, // Top of trigger
+      });
+    }
+  }, [isActive]);
+
   return (
     <div
       className={`relative flex items-center justify-center ${className || ""}`}
@@ -32,17 +46,24 @@ export default function TechTooltip({
       onMouseLeave={onLeave}
     >
       <div
+        ref={triggerRef}
         onClick={(e) => {
-          e.stopPropagation(); // Prevent parent "click outside" listeners from firing immediately
+          e.stopPropagation();
           onClick();
         }}
-        className={`group relative flex items-center justify-center rounded-xl bg-muted/50 hover:bg-muted cursor-pointer ${
+        className={`group relative flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer ${
           isWide ? "h-16 w-full px-4" : "size-16"
+        } ${
+          isActive 
+            ? "bg-muted text-foreground grayscale-0" 
+            : "bg-muted/50 hover:bg-muted text-muted-foreground grayscale"
         }`}
       >
-        <div className={`text-muted-foreground grayscale transition-all duration-300 group-hover:text-foreground group-hover:grayscale-0 flex items-center justify-center [&>svg]:size-full ${isWide ? "h-6 w-full" : "size-10"}`}>
+        <div className={`flex items-center justify-center [&>svg]:size-full ${isWide ? "h-6 w-full" : "size-10"} ${
+          isActive ? "text-foreground grayscale-0" : "group-hover:text-foreground group-hover:grayscale-0"
+        }`}>
            {Icon ? (
-             <Icon className={`size-full ${isActive ? "text-foreground grayscale-0" : ""}`} />
+             <Icon className="size-full" />
            ) : children ? (
              children
            ) : (
@@ -60,14 +81,23 @@ export default function TechTooltip({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ duration: 0.2 }}
+            style={
+              coords
+                ? {
+                    top: coords.y,
+                    left: coords.x,
+                  }
+                : undefined
+            }
             className={`
               z-50 rounded-xl border border-border bg-popover p-4 shadow-lg
-              /* Mobile: Fixed Center */
-              fixed top-1/2 left-1/2 w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2
-              /* Desktop: Absolute Bottom */
-              md:absolute md:top-auto md:bottom-full md:left-1/2 md:w-80 md:translate-y-0 md:bg-popover md:mb-2
+              /* Mobile: Fixed Position based on Coords */
+              fixed w-[90vw] max-w-sm -translate-x-1/2 -translate-y-full mt-[-8px]
+              /* Desktop: Absolute Bottom (Overrides Fixed) */
+              md:absolute md:top-auto md:bottom-full md:left-1/2 md:w-80 md:translate-y-0 md:bg-popover md:mb-2 md:mt-0 
+              /* Reset position styles for Desktop */
+              md:!top-auto md:!left-1/2
             `}
-            // Prevent clicks inside tooltip from closing it (propagation to window)
             onClick={(e) => e.stopPropagation()}
           >
             {/* Tooltip Content */}
