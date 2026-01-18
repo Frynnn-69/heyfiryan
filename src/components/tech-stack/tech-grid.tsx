@@ -11,9 +11,16 @@ export default function TechGrid() {
     const handleOutsideClick = () => {
       setActiveTitle(null);
     };
+    const handleScroll = () => {
+      setActiveTitle(null);
+    };
+
     document.addEventListener("click", handleOutsideClick);
+    window.addEventListener("scroll", handleScroll, { capture: true });
+    
     return () => {
       document.removeEventListener("click", handleOutsideClick);
+      window.removeEventListener("scroll", handleScroll, { capture: true });
     };
   }, []);
 

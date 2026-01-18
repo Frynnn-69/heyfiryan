@@ -27,22 +27,43 @@ export default function TechTooltip({
   onClick: () => void;
 }) {
   const triggerRef = useRef<HTMLDivElement>(null);
-  const [alignment, setAlignment] = useState<"left" | "center" | "right">("center");
+  const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({});
+  const [arrowStyle, setArrowStyle] = useState<React.CSSProperties>({});
 
   useEffect(() => {
     if (isActive && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const screenWidth = window.innerWidth;
+      
+      // Base style: Fixed position above the icon
+      const baseStyle: React.CSSProperties = {
+        top: rect.top - 8, // 8px spacing
+      };
+      
+      let newArrowStyle: React.CSSProperties = {};
 
+      // Smart Alignment
       // Threshold: 160px (Approx half of tooltip max-width 320px)
       if (centerX < 160) {
-        setAlignment("left");
+        // Left Align
+        baseStyle.left = rect.left;
+        baseStyle.transform = "translateY(-100%)";
+        newArrowStyle = { left: "1.5rem" }; // Approx center of first icon
       } else if (centerX > screenWidth - 160) {
-        setAlignment("right");
+        // Right Align
+        baseStyle.right = screenWidth - rect.right;
+        baseStyle.transform = "translateY(-100%)";
+        newArrowStyle = { right: "1.5rem" };
       } else {
-        setAlignment("center");
+        // Center Align
+        baseStyle.left = centerX;
+        baseStyle.transform = "translate(-50%, -100%)";
+        newArrowStyle = { left: "50%", transform: "translateX(-50%) rotate(45deg)" };
       }
+
+      setTooltipStyle(baseStyle);
+      setArrowStyle(newArrowStyle);
     }
   }, [isActive]);
 
@@ -88,12 +109,17 @@ export default function TechTooltip({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ duration: 0.2 }}
+            style={tooltipStyle}
             className={`
               z-50 rounded-xl border border-border bg-popover p-4 shadow-lg
-              absolute bottom-full mb-3 w-[90vw] max-w-sm md:w-80
-              ${alignment === "left" ? "left-0" : ""}
-              ${alignment === "right" ? "right-0" : ""}
-              ${alignment === "center" ? "left-1/2 -translate-x-1/2" : ""}
+              /* Mobile: Fixed Position (Coords from state) */
+              fixed w-[90vw] max-w-sm
+              
+              /* Desktop: Absolute Override (Reset fixed styles) */
+              md:!static md:!transform-none md:!top-auto md:!left-auto md:!right-auto
+              
+              /* Desktop: Absolute Layout */
+              md:absolute md:!bottom-full md:mb-3 md:w-80 md:left-1/2 md:-translate-x-1/2
             `}
             // Prevent clicks inside tooltip from closing it
             onClick={(e) => e.stopPropagation()}
@@ -121,12 +147,15 @@ export default function TechTooltip({
               </div>
             </div>
 
-            {/* Arrow (Dynamic Positioning based on alignment) */}
-            <div className={`absolute -bottom-1.5 h-3 w-3 rotate-45 border-r border-b border-border bg-popover
-              ${alignment === "left" ? "left-8" : ""}
-              ${alignment === "right" ? "right-8" : ""}
-              ${alignment === "center" ? "left-1/2 -translate-x-1/2" : ""}
-            `} />
+            {/* Arrow (Dynamic on Mobile, Standard on Desktop) */}
+            <div 
+              style={arrowStyle}
+              className={`
+                absolute -bottom-1.5 h-3 w-3 rotate-45 border-r border-b border-border bg-popover
+                /* Desktop Override */
+                md:!left-1/2 md:!transform md:!-translate-x-1/2 md:!rotate-45 md:!right-auto 
+              `} 
+            />
           </motion.div>
         )}
       </AnimatePresence>
