@@ -27,15 +27,22 @@ export default function TechTooltip({
   onClick: () => void;
 }) {
   const triggerRef = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState<{ x: number; y: number } | null>(null);
+  const [alignment, setAlignment] = useState<"left" | "center" | "right">("center");
 
   useEffect(() => {
     if (isActive && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      setCoords({
-        x: rect.left + rect.width / 2, // Center of trigger
-        y: rect.top, // Top of trigger
-      });
+      const centerX = rect.left + rect.width / 2;
+      const screenWidth = window.innerWidth;
+
+      // Threshold: 160px (Approx half of tooltip max-width 320px)
+      if (centerX < 160) {
+        setAlignment("left");
+      } else if (centerX > screenWidth - 160) {
+        setAlignment("right");
+      } else {
+        setAlignment("center");
+      }
     }
   }, [isActive]);
 
@@ -81,23 +88,14 @@ export default function TechTooltip({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ duration: 0.2 }}
-            style={
-              coords
-                ? {
-                    top: coords.y,
-                    left: coords.x,
-                  }
-                : undefined
-            }
             className={`
               z-50 rounded-xl border border-border bg-popover p-4 shadow-lg
-              /* Mobile: Fixed Position based on Coords */
-              fixed w-[90vw] max-w-sm -translate-x-1/2 -translate-y-full mt-[-8px]
-              /* Desktop: Absolute Bottom (Overrides Fixed) */
-              md:absolute md:top-auto md:bottom-full md:left-1/2 md:w-80 md:translate-y-0 md:bg-popover md:mb-2 md:mt-0 
-              /* Reset position styles for Desktop */
-              md:!top-auto md:!left-1/2
+              absolute bottom-full mb-3 w-[90vw] max-w-sm md:w-80
+              ${alignment === "left" ? "left-0" : ""}
+              ${alignment === "right" ? "right-0" : ""}
+              ${alignment === "center" ? "left-1/2 -translate-x-1/2" : ""}
             `}
+            // Prevent clicks inside tooltip from closing it
             onClick={(e) => e.stopPropagation()}
           >
             {/* Tooltip Content */}
@@ -123,8 +121,12 @@ export default function TechTooltip({
               </div>
             </div>
 
-            {/* Desktop Arrow (Hidden on Mobile) */}
-            <div className="hidden md:block absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-r border-b border-border bg-popover" />
+            {/* Arrow (Dynamic Positioning based on alignment) */}
+            <div className={`absolute -bottom-1.5 h-3 w-3 rotate-45 border-r border-b border-border bg-popover
+              ${alignment === "left" ? "left-8" : ""}
+              ${alignment === "right" ? "right-8" : ""}
+              ${alignment === "center" ? "left-1/2 -translate-x-1/2" : ""}
+            `} />
           </motion.div>
         )}
       </AnimatePresence>
