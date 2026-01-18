@@ -17,12 +17,12 @@ import {
   Jira  
 } from "developer-icons";
 
-import FastapiIcon from '@/components/ui/icons/fastapi.astro'
-import PandasIcon from "@/components/ui/icons/pandas.astro";
-import NumPyIcon from "@/components/ui/icons/numpy.astro";
-import VercelIcon from "@/components/ui/icons/vercel.astro";
-import SQLIcon from "@/components/ui/icons/sql.astro";
-import GoogleAIStudioIcon from "@/components/ui/icons/google-ai-studio.astro";
+import FastapiIcon from '@/components/ui/icons/fastapi.tsx'
+import PandasIcon from "@/components/ui/icons/pandas.tsx";
+import NumPyIcon from "@/components/ui/icons/numpy.tsx";
+import VercelIcon from "@/components/ui/icons/vercel.tsx";
+import SQLIcon from "@/components/ui/icons/sql.tsx";
+import GoogleAIStudioIcon from "@/components/ui/icons/google-ai-studio.tsx";
 
 
 // Fallback or explicit SVG imports will be needed for things not in developer-icons or if imports fail.

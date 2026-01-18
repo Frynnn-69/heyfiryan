@@ -11,8 +11,7 @@ const { className } = Astro.props;
     "screen-line-before screen-line-after relative flex h-4 w-full md:border-x",
     "before:absolute before:-left-[100vw] before:h-full before:w-[200vw]",
     // Replace the striped background with dotted pattern
-    "before:bg-[image:radial-gradient(var(--pattern-foreground)_2px,_transparent_2px)] before:bg-[size:15px_15px]",
-    "before:[--pattern-foreground:var(--color-black)]/5 dark:before:[--pattern-foreground:var(--color-white)]/5",
+    "before:bg-[image:radial-gradient(rgba(0,0,0,0.05)_2px,transparent_2px)] dark:before:bg-[image:radial-gradient(rgba(255,255,255,0.05)_2px,transparent_2px)] before:bg-[size:15px_15px]",
     className,
   ]}
 >

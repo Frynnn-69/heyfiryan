@@ -34,6 +34,11 @@
   --color-chart-4: hsl(var(--chart-4));
   --color-chart-5: hsl(var(--chart-5));
 
+  /* Compatibility overrides for iPhone 7/Older Safari (avoiding oklch) */
+  --color-blue-500: #3b82f6;
+  --color-yellow-100: #fef9c3;
+  --color-yellow-500: #eab308;
+
   --animate-accordion-down: accordion-down 0.3s ease-out;
   --animate-accordion-up: accordion-up 0.3s ease-out;
   --animate-wave: wave 2.5s infinite;
