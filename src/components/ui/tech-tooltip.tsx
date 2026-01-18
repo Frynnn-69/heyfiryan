@@ -46,13 +46,8 @@ export default function TechTooltip({
     };
   }, [isClicked]);
 
-  const handleLinkClick = (e: React.MouseEvent) => {
-    // If likely mobile (no hover state active) and not yet clicked open
-    if (!isHovered && !isClicked) {
-      e.preventDefault();
-      setIsClicked(true);
-    }
-    // Otherwise (Desktop hover active OR Mobile already clicked open), let navigation happen
+  const handleTriggerClick = () => {
+    setIsClicked(!isClicked);
   };
 
   return (
@@ -61,13 +56,10 @@ export default function TechTooltip({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <a
+      <div
         ref={linkRef}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={handleLinkClick}
-        className={`group relative flex items-center justify-center rounded-xl bg-muted/50 hover:bg-muted ${
+        onClick={handleTriggerClick}
+        className={`group relative flex items-center justify-center rounded-xl bg-muted/50 hover:bg-muted cursor-pointer ${
           isWide ? "h-16 w-full px-4" : "size-16"
         }`}
       >
@@ -82,7 +74,7 @@ export default function TechTooltip({
              </span>
            )}
         </div>
-      </a>
+      </div>
 
       <AnimatePresence>
         {isOpen && (
