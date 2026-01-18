@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function TechTooltip({
@@ -19,6 +19,41 @@ export default function TechTooltip({
   icon?: React.ComponentType<{ className?: string }>;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  const isOpen = isHovered || isClicked;
+
+  // Handle click outside to close tooltip on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        tooltipRef.current &&
+        !tooltipRef.current.contains(event.target as Node) &&
+        linkRef.current &&
+        !linkRef.current.contains(event.target as Node)
+      ) {
+        setIsClicked(false);
+      }
+    };
+
+    if (isClicked) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isClicked]);
+
+  const handleLinkClick = (e: React.MouseEvent) => {
+    // If likely mobile (no hover state active) and not yet clicked open
+    if (!isHovered && !isClicked) {
+      e.preventDefault();
+      setIsClicked(true);
+    }
+    // Otherwise (Desktop hover active OR Mobile already clicked open), let navigation happen
+  };
 
   return (
     <div
@@ -27,16 +62,18 @@ export default function TechTooltip({
       onMouseLeave={() => setIsHovered(false)}
     >
       <a
+        ref={linkRef}
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleLinkClick}
         className={`group relative flex items-center justify-center rounded-xl bg-muted/50 hover:bg-muted ${
           isWide ? "h-16 w-full px-4" : "size-16"
         }`}
       >
         <div className={`text-muted-foreground grayscale transition-all duration-300 group-hover:text-foreground group-hover:grayscale-0 flex items-center justify-center [&>svg]:size-full ${isWide ? "h-6 w-full" : "size-10"}`}>
            {Icon ? (
-             <Icon className="size-full" />
+             <Icon className={`size-full ${isOpen ? "text-foreground grayscale-0" : ""}`} />
            ) : children ? (
              children
            ) : (
@@ -48,13 +85,20 @@ export default function TechTooltip({
       </a>
 
       <AnimatePresence>
-        {isHovered && (
+        {isOpen && (
           <motion.div
+            ref={tooltipRef}
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ duration: 0.2 }}
-            className="absolute bottom-full left-1/2 mb-2 z-50 w-80 -translate-x-1/2 rounded-xl border border-border bg-popover p-4 shadow-lg"
+            className={`
+              z-50 rounded-xl border border-border bg-popover p-4 shadow-lg
+              /* Mobile: Fixed Center */
+              fixed top-1/2 left-1/2 w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2
+              /* Desktop: Absolute Bottom */
+              md:absolute md:top-auto md:bottom-full md:left-1/2 md:w-80 md:translate-y-0 md:bg-popover md:mb-2
+            `}
           >
             {/* Tooltip Content */}
             <div className="flex flex-col gap-2">
@@ -79,8 +123,8 @@ export default function TechTooltip({
               </div>
             </div>
 
-            {/* Arrow */}
-            <div className="absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-r border-b border-border bg-popover" />
+            {/* Desktop Arrow (Hidden on Mobile) */}
+            <div className="hidden md:block absolute -bottom-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-r border-b border-border bg-popover" />
           </motion.div>
         )}
       </AnimatePresence>
