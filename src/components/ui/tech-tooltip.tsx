@@ -8,13 +8,15 @@ export default function TechTooltip({
   children,
   className,
   isWide,
+  icon: Icon,
 }: {
   title: string;
   href: string;
   description: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   isWide?: boolean;
+  icon?: React.ComponentType<{ className?: string }>;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -33,7 +35,11 @@ export default function TechTooltip({
         }`}
       >
         <div className={`text-muted-foreground grayscale transition-all duration-300 group-hover:text-foreground group-hover:grayscale-0 flex items-center justify-center [&>svg]:size-full ${isWide ? "h-6 w-full" : "size-10"}`}>
-           {children || (
+           {Icon ? (
+             <Icon className="size-full" />
+           ) : children ? (
+             children
+           ) : (
              <span className="text-sm font-bold text-muted-foreground group-hover:text-foreground">
               {title.substring(0, 2)}
              </span>

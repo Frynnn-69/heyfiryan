@@ -19,9 +19,8 @@ import TechTooltip from "@/components/ui/tech-tooltip";
               description={item.description}
               className={item.title === "Google AI Studio" ? "col-span-2" : ""}
               isWide={item.title === "Google AI Studio"}
-            >
-              {item.icon && <item.icon />}
-            </TechTooltip>
+              icon={item.icon}
+            />
           ))}
         </div>
       </div>
