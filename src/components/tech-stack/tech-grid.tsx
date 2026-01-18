@@ -1,7 +1,34 @@
+import { useState, useEffect } from "react";
 import { TECH_GROUPS } from "@/lib/constants/tech-stack";
 import TechTooltip from "@/components/ui/tech-tooltip";
 
+type ActiveState = string | null;
+
 export default function TechGrid() {
+  const [activeTitle, setActiveTitle] = useState<ActiveState>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = () => {
+      setActiveTitle(null);
+    };
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+  const handleHover = (title: string) => {
+    setActiveTitle(title);
+  };
+
+  const handleLeave = () => {
+    setActiveTitle(null);
+  };
+
+  const handleClick = (title: string) => {
+    setActiveTitle(title);
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {TECH_GROUPS.map((group) => (
@@ -22,6 +49,10 @@ export default function TechGrid() {
                 className={item.title === "Google AI Studio" ? "col-span-2" : ""}
                 isWide={item.title === "Google AI Studio"}
                 icon={item.icon}
+                isActive={activeTitle === item.title}
+                onHover={() => handleHover(item.title)}
+                onLeave={handleLeave}
+                onClick={() => handleClick(item.title)}
               />
             ))}
           </div>
