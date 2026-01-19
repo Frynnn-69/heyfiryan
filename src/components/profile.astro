@@ -23,25 +23,25 @@ import HuggingFaceIcon from "@/components/ui/icons/huggingface.astro";
   </div>
 
   <div class="flex flex-1 flex-col">
-    <div class="flex grow items-end pb-1 pl-3 min-[350px]:pl-4">
+    <div class="flex grow items-end pb-1 pl-4 max-[349px]:pl-3">
       <div class="line-clamp-1 font-mono text-xs text-muted-foreground">
         {PROFILE_INFO.slogan}
       </div>
     </div>
 
     <div class="">
-      <h1 class="flex items-center gap-x-2 pl-3 text-xl font-black min-[350px]:pl-4 min-[350px]:text-2xl">
+      <h1 class="flex items-center gap-x-2 pl-4 text-2xl font-black max-[349px]:pl-3 max-[349px]:text-xl">
         {PROFILE_INFO.displayName}
         <VerifiedIcon class="size-4 text-blue-500" />
       </h1>
 
-      <div class="py-1 pl-3 min-[350px]:pl-4">
+      <div class="py-1 pl-4 max-[349px]:pl-3">
         <p class="text-sm font-normal!">
           {PROFILE_INFO.role}
         </p>
       </div>
 
-      <div class="flex items-center gap-x-2 pl-3 py-1 min-[350px]:pl-4">
+      <div class="flex items-center gap-x-2 pl-4 py-1 max-[349px]:pl-3">
         <MapPin className="size-4" />
         <span class="text-sm font-normal!">Indonesia</span>
       </div>
