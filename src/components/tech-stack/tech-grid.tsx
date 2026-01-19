@@ -41,7 +41,7 @@ export default function TechGrid() {
       {TECH_GROUPS.map((group) => (
         <div 
           key={group.name}
-          className="flex h-fit flex-col gap-y-3 rounded-xl border border-border/50 bg-background/50 dark:bg-white/10 p-4 transition-[border-color] duration-300 hover:border-border hover:bg-muted/20 hover:z-100"
+          className="flex h-fit flex-col gap-y-3 rounded-xl border border-border/50 bg-background/50 dark:bg-white/10 p-4 transition-[border-color,box-shadow] duration-300 hover:border-border hover:bg-muted/15 hover:shadow-sm dark:hover:shadow-sm"
         >
           <h3 className="text-base font-bold tracking-wide text-muted-foreground uppercase">
             {group.name}

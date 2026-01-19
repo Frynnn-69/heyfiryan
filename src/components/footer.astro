@@ -16,8 +16,9 @@ import { SOCIAL_LINKS } from "@/lib/constants";
     <div class="flex items-center justify-center gap-4">
       {
         SOCIAL_LINKS.map(link => (
-          <a href={link.url} aria-label={link.name}>
+          <a href={link.url} aria-label={link.name} class="inline-flex items-center">
             <link.icon className="size-4 duration-150 hover:text-primary" />
+            <span class="sr-only">{link.name}</span>
           </a>
         ))
       }

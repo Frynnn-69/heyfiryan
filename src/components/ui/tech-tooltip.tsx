@@ -93,7 +93,7 @@ export default function TechTooltip({
           e.stopPropagation();
           onClick();
         }}
-        className={`group relative flex items-center justify-center rounded-xl transition-all duration-300 cursor-pointer ${
+        className={`group relative flex items-center justify-center rounded-xl cursor-pointer ${
           isWide ? "h-16 w-full px-4" : "size-16"
         } ${
           isActive 
