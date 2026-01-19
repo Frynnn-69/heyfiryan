@@ -37,42 +37,31 @@ export default function TechTooltip({
       const iconCenterX = rect.left + rect.width / 2;
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
-      
-      // Desktop Check: Do NOT apply custom positioning on Desktop.
-      // Let standard CSS (md:absolute) handle it, but use internal state for centering.
+
       if (screenWidth >= 768) {
         setTooltipStyle({});
         setArrowStyle({});
         return;
       }
       
-      // Constants
       const PADDING = 10;
       const MAX_WIDTH = 384; // max-w-sm
       const tooltipWidth = Math.min(screenWidth * 0.9, MAX_WIDTH);
       
-      // Calculate Bottom Anchoring
-      // Distance from bottom of screen to top of icon + spacing
       const bottom = screenHeight - rect.top + 8;
-
-      // Calculate Horizontal Position (Magnetic Clamp)
-      // 1. Try to center the tooltip on the icon
       const idealLeft = iconCenterX - tooltipWidth / 2;
       
-      // 2. Clamp it within the screen bounds (with padding)
       const clampedLeft = Math.max(
         PADDING, 
         Math.min(idealLeft, screenWidth - tooltipWidth - PADDING)
       );
 
-      // 3. Calculate Arrow Position (Relative to Tooltip)
       const arrowLeft = iconCenterX - clampedLeft;
 
       setTooltipStyle({
-        bottom: bottom,        // Anchored from bottom
+        bottom: bottom,        
         left: clampedLeft,
         width: tooltipWidth,
-        // No transform needed for Y positioning anymore
       });
 
       setArrowStyle({
