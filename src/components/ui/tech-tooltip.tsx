@@ -30,17 +30,31 @@ export default function TechTooltip({
   const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({});
   const [arrowStyle, setArrowStyle] = useState<React.CSSProperties>({});
 
+
   useEffect(() => {
     if (isActive && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
       const iconCenterX = rect.left + rect.width / 2;
       const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      
+      // Desktop Check: Do NOT apply custom positioning on Desktop.
+      // Let standard CSS (md:absolute) handle it, but use internal state for centering.
+      if (screenWidth >= 768) {
+        setTooltipStyle({});
+        setArrowStyle({});
+        return;
+      }
       
       // Constants
       const PADDING = 10;
       const MAX_WIDTH = 384; // max-w-sm
       const tooltipWidth = Math.min(screenWidth * 0.9, MAX_WIDTH);
       
+      // Calculate Bottom Anchoring
+      // Distance from bottom of screen to top of icon + spacing
+      const bottom = screenHeight - rect.top + 8;
+
       // Calculate Horizontal Position (Magnetic Clamp)
       // 1. Try to center the tooltip on the icon
       const idealLeft = iconCenterX - tooltipWidth / 2;
@@ -52,15 +66,13 @@ export default function TechTooltip({
       );
 
       // 3. Calculate Arrow Position (Relative to Tooltip)
-      // The arrow should point to the iconCenter.
-      // Arrow Position in Tooltip = IconGlobalX - TooltipGlobalX
       const arrowLeft = iconCenterX - clampedLeft;
 
       setTooltipStyle({
-        top: rect.top - 8, // Just above the icon
+        bottom: bottom,        // Anchored from bottom
         left: clampedLeft,
-        transform: "translateY(-100%)", // Move up by its own height
-        width: tooltipWidth, // Explicit width for consistency
+        width: tooltipWidth,
+        // No transform needed for Y positioning anymore
       });
 
       setArrowStyle({
@@ -117,11 +129,11 @@ export default function TechTooltip({
               /* Mobile: Fixed & Clamped (from inline styles) */
               fixed max-w-sm
               
-              /* Desktop: Absolute Override (Reset fixed styles) */
-              md:!static md:!transform-none md:!top-auto md:!left-auto md:!right-auto md:!width-auto
+              /* Desktop: Absolute Layout - Centered Above Icon */
+              md:absolute md:bottom-full md:mb-3 md:w-80 md:left-1/2 md:-translate-x-1/2
               
-              /* Desktop: Absolute Layout */
-              md:absolute md:!bottom-full md:mb-3 md:w-80 md:left-1/2 md:-translate-x-1/2
+              /* Reset Mobile Styles if they leaked (Safety) */
+              md:top-auto md:right-auto
             `}
             // Prevent clicks inside tooltip from closing it
             onClick={(e) => e.stopPropagation()}
